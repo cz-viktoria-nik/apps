@@ -1,0 +1,21 @@
+{
+  "name": "HolMi App",
+  "description": "An application designed to keep track of your borrowed and lent objects. You don't need to write it down on a piece of paper, or in a text file somewhere on your computer anymore! Just make a note with this tool when you lend or borrow something  and it will help you keep an eye on the deadlines when those things need to be returned!",
+  "launch_path": "/index.html",
+  "icons": {
+    "30": "/img/icon-30.png",
+    "60": "/img/icon-60.png",
+    "128": "/img/icon-128.png"
+  },
+  "developer": {
+    "name": "Viktória Czigány",
+    "url": "http://github.com/cz-viktoria-nik/apps"
+  },
+  "permissions": {
+    "desktop-notification":{
+        "description": "Needed for creating system notifications."
+    }
+  },
+
+  "default_locale": "en"
+}

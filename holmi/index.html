@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <script src="/js/Dexie.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/holmi-db.js"></script>  
+
+    <link href="style/headers.css" rel="stylesheet" type="text/css">
+    <link href="style/drawer.css" rel="stylesheet" type="text/css">
+    <link href="style/input_areas.css" rel="stylesheet" type="text/css">
+    <link href="style/switches.css" rel="stylesheet" type="text/css">
+    <link href="style/value_selector.css" rel="stylesheet" type="text/css">
+    <link href="style/buttons.css" rel="stylesheet" type="text/css">
+    <link href="style/application.css" rel="stylesheet" type="text/css">
+    <link href="style/lists.css" rel="stylesheet" type="text/css">
+    <title> HolMi </title>
+</head>
+<body>
+
+
+    
+<section data-type="sidebar" >
+    <header>
+        <h1>Menu</h1>
+    </header>
+
+    <nav>
+        <h2> Actions </h2>
+        <ul>
+            <li><a id="btn-mainView" href="#">Main page</a></li>
+            <li><a id="btn-actionView" href="#">Borrow / Lend item</a></li>
+            <li><a id="btn-editTypesView" href="#">Edit Types</a></li>
+            
+        </ul>
+
+        <h2> List </h2>
+        <ul>
+            <li><a id="btn-listBorrowView" href="#">Borrowed</a></li>
+            <li><a id="btn-listLendView" href="#">Lent</a></li>
+            <li><a id="btn-listArchivesView" href="#">Returned</a></li>
+            <li><a id="btn-listByTypeView" href="#">List By Item Type</a></li>
+        </ul>  
+    </nav>
+</section>
+    
+<section id="drawer" role="region" class="skin-dark">
+    <header>
+          <a href="#content"><span class="icon icon-menu">hide sidebar</span></a>
+          <a href="#drawer"><span class="icon icon-menu">show sidebar</span></a>
+          <h1>Hol-Mi</h1>
+    </header>
+        
+    <div role="main">
+        
+        <section id="mainView" role="region" class="skin-dark">
+            <p>Welcome</p>
+            <p class="normal-text">
+                This application will help you keep track of your borrowed and lent 
+                things and to keep an eye on the deadline, when they should be returned!
+            </p>
+            
+            <br>
+            
+            <p class="normal-text"><strong>Currently you have:</strong></p>
+            <p class="normal-text"> 
+                <span id="countBorrowed">0</span> items borrowed <br>    
+                <span id="countLent">0</span> items lent <br>  
+                <span id="countArchived">0</span> items returned 
+            </p> 
+        </section>
+        
+        
+        <section id="listByTypeView" role="region" class="skin-dark">
+            <p>Choose item type to list</p>
+            <p><select id="input_bli_item_type2"></select></p>
+            <section data-type="list">
+                <ul id="byTypeList" class="item-list">
+                </ul>
+            </section>
+        </section>
+        
+        <!-- borrow-lend form -->
+        <section id="actionView" role="region" class="skin-dark">
+            <p>Borrow / Lend item</p>
+            
+            <form>
+                <p> 
+                    <select id="input_bli_action" class="normal">
+                        <option value="" selected="selected" disabled="disabled" >select action...</option>
+                        <option value="borrow">Borrow</option>
+                        <option value="lend">Lend</option>
+                    </select>
+                </p>
+
+                <p><input type="text"  class="normal" id="input_bli_item" placeholder="Item to borrow / lend" required="required" ></p>
+                <p><input type="text"  class="normal" id="input_bli_person" placeholder="To / From who?" required="required" ></p>
+                <p><select  class="normal" id="input_bli_item_type"></select></p>
+                <p><input  class="normal" type="date" maxlength="10" id="input_bli_from_date" placeholder="From date"></p>
+                <p><input  class="normal" type="date" maxlength="10" id="input_bli_to_date" placeholder="To date"></p>
+                
+                <p>
+                    <label class="pack-checkbox notify_checkbox">
+                        <input type="checkbox" id="input_bli_notify" >
+                        <span>Notify Me!</span>
+                    </label> 
+                </p>
+
+                <p><input type="date" id="input_bli_notify_date"  placeholder="Notify date" ></p>
+                <p><input type="time" id="input_bli_notify_time"  placeholder="Notify time" ></p>
+                <p><textarea id="input_bli_comment" placeholder="Any comments to add..." ></textarea></p>
+                
+                <p>
+                    <button class="recommend" id="addButton">Save this!</button>
+                    <button class="default" id="backToMainButton">Back!</button>
+                </p>
+            </form>
+        </section>
+        
+        
+        <!-- edit borrow-lend item form -->
+        <section id="editActionView" role="region" class="skin-dark">
+            <p>Edit this Action</p>
+            
+            <form>
+                <p> 
+                    <select id="edit_bli_action" class="normal">
+                        <option value="" selected="selected" disabled="disabled" >select action...</option>
+                        <option value="borrow">Borrow</option>
+                        <option value="lend">Lend</option>
+                    </select>
+                </p>
+
+                <p><input type="text" class="normal" id="edit_bli_item" placeholder="Item to borrow / lend" required="required" ></p>
+                <p><input type="text" class="normal" id="edit_bli_person" placeholder="To / From who?" required="required" ></p>
+                <p><select id="edit_bli_item_type" class="normal"></select></p>
+                <p><input type="date" class="normal" maxlength="10" id="edit_bli_from_date" placeholder="From date" required="" ></p>
+                <p><input type="date" class="normal" maxlength="10" id="edit_bli_to_date"  placeholder="To date" required="" ></p>
+                
+                <p>
+                    <label class="pack-checkbox notify_checkbox">
+                        <input type="checkbox" id="edit_bli_notify" >
+                        <span>Notify Me!</span>
+                    </label> 
+                </p>
+
+                <p><input type="date" id="edit_bli_notify_date"  placeholder="Notify date" ></p>
+                <p><input type="time" id="edit_bli_notify_time"  placeholder="Notify time" ></p>
+                <p><textarea id="edit_bli_comment" placeholder="Any comments to add..." ></textarea></p>
+                
+                <p>
+                    <label class="pack-checkbox notify_checkbox">
+                        <input type="checkbox" id="edit_bli_returned" >
+                        <span>Returned!</span>
+                    </label> 
+                </p>
+                
+                <br>
+                
+                <p>
+                    <button class="recommend" id="editButton">Update this!</button>
+                    <button class="recommend" id="deleteItemButton">Delete this!</button>
+                    <button class="default" id="editBackButton">Back</button>
+                </p>
+            </form>
+        </section>
+        
+        
+        
+        <section id="listBorrowView" role="region" >
+            <p>List of borrowed stuff</p>
+            <section data-type="list">
+                <ul id="borrowList" class="item-list">
+                </ul>
+            </section>
+        </section>
+        
+        <section id="listLendView" role="region">
+            <p>List of lent stuff</p>
+            <section data-type="list">
+                <ul id="lendList" class="item-list">
+                </ul>
+            </section>
+        </section>
+        
+         <section id="listArchivesView" role="region" >
+            <p>List of returned stuff</p>
+            <section data-type="list">
+                <ul id="archivesList" class="item-list">
+                </ul>
+            </section>
+        </section>
+        
+        
+        <!-- new type form -->
+        <section id="newTypeView" role="region" class="skin-dark">
+            <p>Create new Type</p>
+            <form>
+                <p> 
+                    <input type="text" id="new_type" placeholder="new type name" >
+                </p>
+                
+                <p>
+                    <button class="recommend" id="addTypeButton">Save this!</button>
+                    <button class="default" id="btn-back">Back</button>
+                </p>
+             </form>
+        </section>
+        
+        
+        <!-- edit types view -->  
+        <section id="editTypesView" role="region" >
+            <p>Edit Item Types</p>
+            <form>
+                <p> 
+                    <button class="recommend" id="btn-newTypeView">Add New Type</button>
+                </p>
+            </form>
+            
+            <br>
+            
+            <p>List of Types</p>
+            <section data-type="list">
+                <ul id="typelist">
+                </ul>
+            </section>
+        </section>
+        
+          
+    </div> <!-- div role: main -->
+</section> <!-- id: drawer, role: region -->
+
+
+</body>
+</html>
